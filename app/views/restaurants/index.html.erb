@@ -1,14 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<% if flash[:notice].present? %>
+  <p style="color: green; text-align:center; border: .5px solid green; border-radius: .5rem; background-color: rgba(0, 255, 0, 0.1); width:50%; margin: 1rem auto; padding: .5rem 0"><%= notice %></p>
+<% end %>
 
 <h1>Restaurants</h1>
 
 <div id="restaurants">
-  <% @restaurants.each do |restaurant| %>
-    <%= render restaurant %>
-    <p>
-      <%= link_to "Show this restaurant", restaurant %>
-    </p>
+
+  <% if @restaurants.blank? %>
+    <h2>No restaurants yet</h2>
+  <% else %>
+    <% @restaurants.each do |restaurant| %>
+      <%= render restaurant %>
+      <p>
+        <%= link_to "Show this restaurant", restaurant %>
+      </p>
+    <% end %>
   <% end %>
 </div>
 
 <%= link_to "New restaurant", new_restaurant_path %>
+<%= link_to "Top restaurants", top_restaurants_path %>

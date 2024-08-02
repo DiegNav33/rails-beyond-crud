@@ -1,5 +1,5 @@
 class RestaurantsController < ApplicationController
-  before_action :set_restaurant, only: %i[ show edit update destroy ]
+  before_action :set_restaurant, only: %i[ show edit update destroy chef ]
 
   # GET /restaurants
   def index
@@ -24,7 +24,7 @@ class RestaurantsController < ApplicationController
     @restaurant = Restaurant.new(restaurant_params)
 
     if @restaurant.save
-      redirect_to @restaurant, notice: "Restaurant was successfully created."
+      redirect_to @restaurant, notice: "Restaurant was successfully created.", status: :see_other
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +33,7 @@ class RestaurantsController < ApplicationController
   # PATCH/PUT /restaurants/1
   def update
     if @restaurant.update(restaurant_params)
-      redirect_to @restaurant, notice: "Restaurant was successfully updated.", status: :see_other
+      redirect_to @restaurant, notice: "Restaurant was successfully updated...", status: :see_other
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,6 +43,14 @@ class RestaurantsController < ApplicationController
   def destroy
     @restaurant.destroy!
     redirect_to restaurants_url, notice: "Restaurant was successfully destroyed.", status: :see_other
+  end
+
+  def top
+    @restaurants = Restaurant.where(rating:5)
+  end
+
+  def chef
+    @chef_name = @restaurant.chef_name
   end
 
   private
